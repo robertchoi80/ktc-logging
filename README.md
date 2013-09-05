@@ -1,4 +1,2 @@
-ktc-logging
-===========
+Logging TLC which includes rsyslog, logstash and kibana.
 
-Logging TLC

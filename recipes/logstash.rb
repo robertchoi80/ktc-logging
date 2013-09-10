@@ -8,7 +8,7 @@ require 'chef/rewind'
 
 include_recipe "logstash::server"
 
-patterns_dir = node['logstash']['basedir'] + '/' + node['logstash']['server']['patterns_dir']
+patterns_dir = node[:logstash][:basedir] + '/' + node[:logstash][:server][:patterns_dir]
 
 rewind :template => "#{node[:logstash][:basedir]}/server/etc/logstash.conf" do
   source "server.conf.erb"

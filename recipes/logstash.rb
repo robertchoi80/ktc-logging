@@ -8,11 +8,12 @@ require 'chef/rewind'
 
 include_recipe "logstash::server"
 
-patterns_dir = node[:logstash][:basedir] + '/' + node[:logstash][:server][:patterns_dir]
+patterns_dir = node[:logstash][:basedir] + '/'
+patterns_dir <<  node[:logstash][:server][:patterns_dir]
 
 rewind :template => "#{node[:logstash][:basedir]}/server/etc/logstash.conf" do
-  source "server.conf.erb"
-  cookbook_name "ktc-logging"
+  source "logstash.conf.erb"
+  cookbook "ktc-logging"
   variables(:graphite_server_ip => node[:logstash][:graphite_ip],
     :es_server_ip => node[:logstash][:elasticsearch_ip],
     :enable_embedded_es => node[:logstash][:server][:enable_embedded_es],

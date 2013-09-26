@@ -6,5 +6,4 @@ default[:logging][:server_recipes] = []
 default[:logging][:server_recipes].concat %w{
   ktc-logging::logstash
   logstash::index_cleaner
-  kibana::default
 }

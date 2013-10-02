@@ -1,6 +1,6 @@
 #
 # CookBook:: ktc-logging
-# Recipe:: logstash_server
+# Recipe:: logstash
 #
 
 chef_gem "chef-rewind"

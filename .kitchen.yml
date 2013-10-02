@@ -9,13 +9,23 @@ platforms:
   driver_config:
     box: opscode-ubuntu-12.04_chef-11.4.4
     box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-11.4.4.box
+    customize:
+      cpus: 2
+      memory: 1024
 
 suites:
 - name: default
   run_list:
     - recipe[ubuntu]
-    - recipe[ktc-logging::server]
-  attributes: {}
+    - recipe[ktc-logging::server_logstash]
+    - recipe[ktc-logging::server_es]
+  attributes: 
+    logging:
+      recipes_server_logstash: 
+        - ktc-logging::logstash
+      recipes_server_es: 
+        - elasticsearch::default
+        - logstash::index_cleaner
 
 clusters:
   default:

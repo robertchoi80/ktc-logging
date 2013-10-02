@@ -16,6 +16,9 @@
       "git": "git://github.com/opscode-cookbooks/ubuntu.git",
       "ref": "e288cc4bf8917e2aaaf99311eb0ad3531ffef8a1"
     },
+    "java": {
+      "locked_version": "1.13.0"
+    },
     "rsyslog": {
       "locked_version": "1.7.1",
       "git": "git://github.com/opscode-cookbooks/rsyslog.git",
@@ -31,13 +34,24 @@
       "git": "git://github.com/lusis/chef-kibana.git",
       "ref": "3af9fd8adf0d4fbf971818ef50c29835a5ff6c06"
     },
+    "elasticsearch": {
+      "locked_version": "0.3.4",
+      "git": "git://github.com/elasticsearch/cookbook-elasticsearch.git",
+      "ref": "fa6a0bd7ec08f2d46b9b89d71cf365458d187d48"
+    },
     "chef-solo-search": {
       "locked_version": "0.4.0",
       "git": "git://github.com/edelight/chef-solo-search.git",
       "ref": "a28e7f25ab4afb53f9a55dd49d8b1277d0374c29"
     },
     "hostsfile": {
-      "locked_version": "1.0.2"
+      "locked_version": "2.0.0"
+    },
+    "windows": {
+      "locked_version": "1.10.0"
+    },
+    "chef_handler": {
+      "locked_version": "1.1.4"
     },
     "yumrepo": {
       "locked_version": "2.0.0"
@@ -69,12 +83,6 @@
     "dmg": {
       "locked_version": "2.0.0"
     },
-    "windows": {
-      "locked_version": "1.10.0"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.4"
-    },
     "runit": {
       "locked_version": "1.2.0"
     },
@@ -86,9 +94,6 @@
     },
     "python": {
       "locked_version": "1.4.0"
-    },
-    "java": {
-      "locked_version": "1.13.0"
     },
     "ant": {
       "locked_version": "1.0.2"
@@ -107,6 +112,9 @@
     },
     "nginx": {
       "locked_version": "1.8.0"
+    },
+    "monit": {
+      "locked_version": "0.7.1"
     }
   }
 }

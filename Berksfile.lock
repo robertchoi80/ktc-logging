@@ -12,9 +12,6 @@
     "java": {
       "locked_version": "1.13.0"
     },
-    "chef-solo-search": {
-      "locked_version": "0.5.1"
-    },
     "logstash": {
       "locked_version": "0.6.1"
     },

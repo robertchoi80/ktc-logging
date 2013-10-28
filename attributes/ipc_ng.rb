@@ -12,6 +12,7 @@ default[:logging][:recipes_server_logstash] = %w{
 default[:logging][:recipes_server_es] = %w{
   java
   elasticsearch::default
+  logstash::default
   logstash::index_cleaner
   kibana::default
 }

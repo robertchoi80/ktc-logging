@@ -14,7 +14,7 @@ platforms:
 suites:
 - name: default
   run_list:
-    - recipe[ubuntu]
+    - recipe[ktc-testing]
     - recipe[ktc-logging::server_logstash]
     - recipe[ktc-logging::server_es]
   attributes: 

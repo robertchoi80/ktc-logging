@@ -8,6 +8,6 @@ metadata
 group "other" do
   # These are for the jenkins test. #
   cookbook "apt"
-  cookbook "ubuntu"
   cookbook "java"
+  cookbook "ktc-testing"
 end

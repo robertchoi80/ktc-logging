@@ -24,6 +24,11 @@ suites:
       recipes_server_es: 
         - elasticsearch::default
         - logstash::index_cleaner
+    logstash:
+      elasticsearch_cluster: 'es-cluster-test'
+    elasticsearch:
+      cluster:
+        name: 'es-cluster-test'
 
 clusters:
   default:

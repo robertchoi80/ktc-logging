@@ -6,11 +6,11 @@
     "apt": {
       "locked_version": "2.2.1"
     },
-    "ubuntu": {
-      "locked_version": "1.1.2"
-    },
     "java": {
       "locked_version": "1.13.0"
+    },
+    "ktc-testing": {
+      "locked_version": "0.0.4"
     },
     "logstash": {
       "locked_version": "0.6.1"
@@ -98,6 +98,9 @@
     },
     "monit": {
       "locked_version": "0.7.1"
+    },
+    "ubuntu": {
+      "locked_version": "1.1.2"
     }
   }
 }

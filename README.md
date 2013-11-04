@@ -1,2 +1,2 @@
-Logging TLC which includes rsyslog, logstash and kibana.
+Logging TLC which includes rsyslog, logstash, elasticsearch and kibana.
 

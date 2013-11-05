@@ -11,7 +11,7 @@ input {
 }
 
 filter {
-  <% if node['logstash']['server']['enable_dmesg_filter'] -%>
+  <% if node['logstash']['server']['filter_list'].include?("dmesg") -%>
   grok {
     type => "syslog"
     patterns_dir => [ "<%= @patterns_dir %>" ]
@@ -26,14 +26,14 @@ filter {
   }
   <% end -%>
 
-  <% if node['logstash']['server']['enable_request_filter'] -%>
+  <% if node['logstash']['server']['filter_list'].include?("request") -%>
   grep {
     match => ["pure_message", "request_id"]
     drop => false
     add_tag => ["request"]
   }
 
-  <% if node['logstash']['server']['enable_json_filter'] -%>
+  <% if node['logstash']['server']['filter_list'].include?("json") -%>
   if "request" in [tags] {
     grok {
       patterns_dir => [ "<%= @patterns_dir %>" ]

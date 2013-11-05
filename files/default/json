@@ -1,0 +1,3 @@
+CONTENT \{.*\}
+
+JSON (received|unpacked\ context:) %{CONTENT:json_content} _safe_log

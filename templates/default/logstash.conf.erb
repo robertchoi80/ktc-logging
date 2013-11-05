@@ -10,11 +10,66 @@ input {
   <% end -%>
 }
 
-<% unless node['logstash']['server']['filters'].empty? -%>
 filter {
-  <%= LogstashConf.section_to_str(node['logstash']['server']['filters'], node['logstash']['server']['version'], @patterns_dir) %>
+  <% if node['logstash']['server']['enable_dmesg_filter'] -%>
+  grok {
+    type => "syslog"
+    patterns_dir => [ "<%= @patterns_dir %>" ]
+    match => [ "message", "%{DMESG}" ]
+    add_tag => [ "dmesg" ]
+  }
+
+  if "dmesg" not in [tags] {
+    mutate {
+      add_field => [ "pure_message", "%{message}" ]
+    }
+  }
+  <% end -%>
+
+  <% if node['logstash']['server']['enable_request_filter'] -%>
+  grep {
+    match => ["pure_message", "request_id"]
+    drop => false
+    add_tag => ["request"]
+  }
+
+  <% if node['logstash']['server']['enable_json_filter'] -%>
+  if "request" in [tags] {
+    grok {
+      patterns_dir => [ "<%= @patterns_dir %>" ]
+      match => [ "pure_message", "%{JSON}" ]
+      add_tag => [ "json_pulled" ]
+    }
+  }
+
+  if "json_pulled" in [tags] {
+    mutate {
+      gsub => [
+        "json_content", "u'", "'",
+        "json_content", 'None', '"None"',
+        "json_content", 'True', '"True"',
+        "json_content", 'False', '"False"',
+        "json_content", '"\[', '\[',
+        "json_content", '\]"', '\]',
+        "json_content", '"\{', '\{',
+        "json_content", '\}"', '\}'
+      ]
+    }
+    mutate {
+      gsub => [
+        "json_content", "'", '"'
+      ]
+    }
+    json {
+      type => 'syslog'
+      source => "json_content"
+      target => "json_data"
+      add_tag => [ "json_parsed" ]
+    }
+  }
+ <% end -%>
+ <% end -%>
 }
-<% end -%>
 
 output {
   <% if node['logstash']['server']['debug'] -%>
@@ -39,4 +94,3 @@ output {
     <%= LogstashConf.section_to_str(node['logstash']['server']['outputs']) %>
   <% # end -%>
 }
-

@@ -19,7 +19,7 @@
       "locked_version": "2.0.0"
     },
     "yum": {
-      "locked_version": "2.3.4"
+      "locked_version": "2.4.3"
     },
     "apache2": {
       "locked_version": "1.7.0"
@@ -85,13 +85,13 @@
       "locked_version": "1.8.0"
     },
     "ktc-rsyslog": {
-      "locked_version": "0.1.1"
+      "locked_version": "0.1.2"
     },
     "rsyslog": {
       "locked_version": "1.9.0"
     },
     "hostsfile": {
-      "locked_version": "2.0.0"
+      "locked_version": "2.4.1"
     },
     "elasticsearch": {
       "locked_version": "0.3.4"

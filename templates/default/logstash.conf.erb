@@ -19,9 +19,12 @@ filter {
     add_tag => [ "dmesg" ]
   }
 
-  if "dmesg" not in [tags] {
+  if "dmesg" in [tags] {
     mutate {
-      add_field => [ "pure_message", "%{message}" ]
+      replace => [ "message", "%{pure_message}" ]
+    }
+    mutate {
+      remove_field => [ "pure_message" ]
     }
   }
   <% end -%>

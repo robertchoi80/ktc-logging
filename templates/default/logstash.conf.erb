@@ -11,6 +11,12 @@ input {
 }
 
 filter {
+  grok {
+    type => "syslog"
+    match => { "message" => "\<\d+\>%{SYSLOGTIMESTAMP:timestamp}%{SPACE}%{SYSLOGHOST:logsource}?%{SPACE}%{DATA:program}(?:\[%{POSINT:pid}\])?:? %{GREEDYDATA:pure_message}" }
+    add_tag => [ "abnormal" ]
+  }
+
   <% if node['logstash']['server']['filter_list'].include?("dmesg") -%>
   grok {
     type => "syslog"
@@ -18,8 +24,9 @@ filter {
     match => [ "message", "%{DMESG}" ]
     add_tag => [ "dmesg" ]
   }
+  <% end -%>
 
-  if "dmesg" in [tags] {
+  if ("dmesg" in [tags]) or ("abnormal" in [tags]) {
     mutate {
       replace => [ "message", "%{pure_message}" ]
     }
@@ -27,11 +34,10 @@ filter {
       remove_field => [ "pure_message" ]
     }
   }
-  <% end -%>
 
   <% if node['logstash']['server']['filter_list'].include?("request") -%>
   grep {
-    match => ["pure_message", "request_id"]
+    match => ["message", "request_id"]
     drop => false
     add_tag => ["request"]
   }
@@ -40,7 +46,7 @@ filter {
   if "request" in [tags] {
     grok {
       patterns_dir => [ "<%= @patterns_dir %>" ]
-      match => [ "pure_message", "%{JSON}" ]
+      match => [ "message", "%{JSON}" ]
       add_tag => [ "json_pulled" ]
     }
   }

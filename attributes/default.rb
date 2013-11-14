@@ -24,7 +24,7 @@ default[:logstash][:server][:source_url] =
 default[:logstash][:server][:inputs] = [:syslog => { :type=>'syslog', :port=>'5514' }]
 default[:logstash][:server][:outputs] = []
 
-default[:logstash][:server][:filter_list] = ["dmesg", "request", "json"]
+default[:logstash][:server][:filter_list] = ["dmesg", "json_tag", "json_parse"]
 
 default[:logstash][:index_cleaner][:days_to_keep] = 28
 default[:logstash][:index_cleaner][:cron][:minute] = '0'

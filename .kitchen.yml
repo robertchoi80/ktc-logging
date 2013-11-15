@@ -17,18 +17,7 @@ suites:
     - recipe[ktc-testing]
     - recipe[ktc-logging::server_logstash]
     - recipe[ktc-logging::server_es]
-  attributes: 
-    logging:
-      recipes_server_logstash: 
-        - ktc-logging::logstash
-      recipes_server_es: 
-        - elasticsearch::default
-        - logstash::index_cleaner
-    logstash:
-      elasticsearch_cluster: 'es-cluster-test'
-    elasticsearch:
-      cluster:
-        name: 'es-cluster-test'
+    - recipe[ktc-logging::client]
 
 clusters:
   default:

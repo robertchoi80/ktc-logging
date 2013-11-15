@@ -5,15 +5,22 @@ include_attribute "ktc-rsyslog"
 
 # Override these recipe lists in 'per-env' attribute file.
 default[:logging][:recipes_server_logstash] = %w{
+  ktc-logging::logstash
 }
 
 default[:logging][:recipes_server_es] = %w{
+  java
+  elasticsearch::default
+  logstash::default
+  logstash::index_cleaner
 }
 
 default[:logging][:recipes_server_kibana] = %w{
+  kibana::default
 }
 
 default[:logging][:recipes_client] = %w{
+  ktc-rsyslog::default
 }
 
 # Logstash attributes
@@ -35,8 +42,8 @@ default[:logstash][:splunk_host] = ''
 default[:logstash][:splunk_port] = ''
 
 # These two attributes should have same value.
-default[:logstash][:elasticsearch_cluster] = ''
-default[:elasticsearch][:cluster][:name] = ''
+default[:logstash][:elasticsearch_cluster] = 'es-cluster-test'
+default[:elasticsearch][:cluster][:name] = 'es-cluster-test'
 
 # Kibana attributes
 default[:kibana][:webserver] = 'apache'

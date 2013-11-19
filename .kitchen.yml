@@ -24,6 +24,7 @@ suites:
     - recipe[ktc-testing]
     - recipe[ktc-logging::server_logstash]
     - recipe[ktc-logging::server_es]
+    - recipe[ktc-logging::client]
   attributes: 
     logging:
       recipes_server_logstash: 

@@ -4,7 +4,7 @@ license           "Apache 2.0"
 description       "TLC for logging"
 version '1.0.9'
 
-depends "logstash"
+depends "elasticsearch"
 depends "kibana"
 depends "ktc-rsyslog"
-depends "elasticsearch"
+depends "logstash"

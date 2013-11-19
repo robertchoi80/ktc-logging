@@ -81,6 +81,9 @@ filter {
       target => "json_data"
       add_tag => [ "json_parsed" ]
     }
+    mutate {
+      remove_field => [ "json_content" ]
+    }
   }
  <% end -%>
  <% end -%>
@@ -103,7 +106,9 @@ output {
   graphite { host => "<%= @graphite_server_ip %>" metrics => ["logstash.events", "1"] }
   <% end -%>
   <% unless @splunk_host.empty? -%>
-  udp { host => "<%= @splunk_host %>" port => "<%= @splunk_port %>" }
+  if ("dmesg" in [tags]) OR ("safe_log" in [tags]) OR ("event" in [tags]) {
+    udp { host => "<%= @splunk_host %>" port => "<%= @splunk_port %>" }
+  }
   <% end -%>
   <% # unless node['logstash']['server']['outputs'].empty? -%>
     <%= LogstashConf.section_to_str(node['logstash']['server']['outputs']) %>

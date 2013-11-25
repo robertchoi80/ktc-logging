@@ -13,26 +13,16 @@ input {
 filter {
   grok {
     type => "syslog"
-    match => { "message" => "\<\d+\>%{SYSLOGTIMESTAMP:timestamp}%{SPACE}%{SYSLOGHOST:logsource}?%{SPACE}%{DATA:program}(?:\[%{POSINT:pid}\])?:? %{GREEDYDATA:pure_message}" }
+    match => { "message" => "\<\d+\>%{SYSLOGTIMESTAMP:timestamp}%{SPACE}%{SYSLOGHOST:logsource}?%{SPACE}%{DATA:program}(?:\[%{POSINT:pid}\])?:? %{GREEDYDATA:message}" }
+    overwrite => [ "message" ]
     add_tag => [ "abnormal" ]
   }
 
-  <% if node['logstash']['server']['filter_list'].include?("dmesg") -%>
   grok {
     type => "syslog"
-    patterns_dir => [ "<%= @patterns_dir %>" ]
-    match => [ "message", "%{DMESG}" ]
-    add_tag => [ "dmesg" ]
-  }
-  <% end -%>
-
-  if ("dmesg" in [tags]) or ("abnormal" in [tags]) {
-    mutate {
-      replace => [ "message", "%{pure_message}" ]
-    }
-    mutate {
-      remove_field => [ "pure_message" ]
-    }
+    match => { "message" => "%{LOGLEVEL:log_level}? %{GREEDYDATA:message}" }
+    overwrite => [ "message" ]
+    add_tag => [ "level_grokked" ]
   }
 
   <% if node['logstash']['server']['filter_list'].include?("json_tag") -%>
@@ -85,8 +75,8 @@ filter {
       remove_field => [ "json_content" ]
     }
   }
- <% end -%>
- <% end -%>
+  <% end -%>
+  <% end -%>
 }
 
 output {
@@ -106,7 +96,7 @@ output {
   graphite { host => "<%= @graphite_server_ip %>" metrics => ["logstash.events", "1"] }
   <% end -%>
   <% unless @splunk_host.empty? -%>
-  if ("dmesg" in [tags]) OR ("safe_log" in [tags]) OR ("event" in [tags]) {
+  if [log_level] in <%= node['logstash']['log_level_for_splunk'].to_s %> {
     udp { host => "<%= @splunk_host %>" port => "<%= @splunk_port %>" }
   }
   <% end -%>

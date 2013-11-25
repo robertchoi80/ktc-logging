@@ -11,13 +11,6 @@ include_recipe "logstash::server"
 patterns_dir = node[:logstash][:basedir] + '/'
 patterns_dir <<  node[:logstash][:server][:patterns_dir]
 
-cookbook_file "#{patterns_dir}/dmesg" do
-  source "dmesg"
-  owner node[:logstash][:user]
-  group node[:logstash][:group]
-  mode 0644
-end
-
 cookbook_file "#{patterns_dir}/json" do
   source "json"
   owner node[:logstash][:user]

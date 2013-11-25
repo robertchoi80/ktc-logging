@@ -40,6 +40,7 @@ default[:logstash][:index_cleaner][:cron][:log_file] = '/dev/null'
 
 default[:logstash][:splunk_host] = ''
 default[:logstash][:splunk_port] = ''
+default[:logstash][:log_level_for_splunk] = ['CRITICAL', 'ERROR', 'WARN', 'INFO']
 
 # These two attributes should have same value.
 default[:logstash][:elasticsearch_cluster] = 'es-cluster-test'

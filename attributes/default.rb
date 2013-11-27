@@ -52,3 +52,16 @@ default[:kibana][:apache][:enable_default_site] = true
 
 # Rsyslog attributes
 default[:rsyslog][:logstash_server] = ''
+
+# process monitoring
+default[:logging][:logstash_processes] = [
+  { "name" =>  "java", "shortname" =>  "java" }
+]
+
+default[:logging][:es_processes] = [
+  { "name" =>  "java", "shortname" =>  "java" }
+]
+
+default[:logging][:kibana_processes] = [
+  { "name" =>  "apache2", "shortname" =>  "apache2" }
+]

@@ -22,16 +22,17 @@ suites:
 - name: default
   run_list:
     - recipe[ktc-testing]
+    - recipe[etcd::compile_time]
+    - recipe[ktc-monitor::client]
     - recipe[ktc-logging::server_logstash]
     - recipe[ktc-logging::server_es]
     - recipe[ktc-logging::client]
   attributes: 
-    logging:
-      recipes_server_logstash: 
-        - ktc-logging::logstash
-      recipes_server_es: 
-        - elasticsearch::default
-        - logstash::index_cleaner
+    etcd:
+      args: '-c 127.0.0.1:4001 -s 127.0.0.1:7001 -f'
+      servers:
+        - 127.0.0.1
+    ha_disabled: true
     logstash:
       elasticsearch_cluster: 'es-cluster-test'
     elasticsearch:

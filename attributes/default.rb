@@ -44,7 +44,8 @@ default[:logstash][:log_level_for_splunk] = ['CRITICAL', 'ERROR', 'WARN', 'INFO'
 
 # This search keyword is used for both logstash and kibana.
 default[:logging][:elasticsearch_recipe] = "ktc-logging\\:\\:server_es"
-default[:logstash][:elasticsearch_query] = "recipes:#{node[:logging][:elasticsearch_recipe]} AND chef_environment:#{node.chef_environment}"
+default[:logging][:elasticsearch_query] = "recipes:#{node[:logging][:elasticsearch_recipe]} \
+AND chef_environment:#{node.chef_environment}"
 
 # These two attributes should have same value.
 default[:logstash][:elasticsearch_cluster] = 'es-cluster-test'

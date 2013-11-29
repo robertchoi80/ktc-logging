@@ -11,7 +11,7 @@ include_recipe "logstash::server"
 patterns_dir = node[:logstash][:basedir] + '/'
 patterns_dir <<  node[:logstash][:server][:patterns_dir]
 
-es_results = search(:node, node['logstash']['elasticsearch_query'])
+es_results = search(:node, node['logging']['elasticsearch_query'])
 
 unless es_results.empty?
   es_server_ip = es_results[0]['ipaddress']

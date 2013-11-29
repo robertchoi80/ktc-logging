@@ -11,6 +11,14 @@ include_recipe "logstash::server"
 patterns_dir = node[:logstash][:basedir] + '/'
 patterns_dir <<  node[:logstash][:server][:patterns_dir]
 
+es_results = search(:node, node['logstash']['elasticsearch_query'])
+
+unless es_results.empty?
+  es_server_ip = es_results[0]['ipaddress']
+else
+  es_server_ip = node['logstash']['elasticsearch_ip']
+end
+
 cookbook_file "#{patterns_dir}/json" do
   source "json"
   owner node[:logstash][:user]
@@ -22,7 +30,7 @@ rewind :template => "#{node[:logstash][:basedir]}/server/etc/logstash.conf" do
   source "logstash.conf.erb"
   cookbook "ktc-logging"
   variables(:graphite_server_ip => node[:logstash][:graphite_ip],
-    :es_server_ip => node[:logstash][:elasticsearch_ip],
+    :es_server_ip => es_server_ip,
     :enable_embedded_es => node[:logstash][:server][:enable_embedded_es],
     :es_cluster => node[:logstash][:elasticsearch_cluster],
     :splunk_host => node[:logstash][:splunk_host],

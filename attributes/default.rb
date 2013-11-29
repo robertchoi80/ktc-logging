@@ -16,7 +16,7 @@ default[:logging][:recipes_server_es] = %w{
 }
 
 default[:logging][:recipes_server_kibana] = %w{
-  kibana::default
+  ktc-logging::kibana
 }
 
 default[:logging][:recipes_client] = %w{
@@ -41,6 +41,11 @@ default[:logstash][:index_cleaner][:cron][:log_file] = '/dev/null'
 default[:logstash][:splunk_host] = ''
 default[:logstash][:splunk_port] = ''
 default[:logstash][:log_level_for_splunk] = ['CRITICAL', 'ERROR', 'WARN', 'INFO']
+
+# This search keyword is used for both logstash and kibana.
+default[:logging][:elasticsearch_recipe] = "ktc-logging\\:\\:server_es"
+default[:logging][:elasticsearch_query] = "recipes:#{node[:logging][:elasticsearch_recipe]} \
+AND chef_environment:#{node.chef_environment}"
 
 # These two attributes should have same value.
 default[:logstash][:elasticsearch_cluster] = 'es-cluster-test'

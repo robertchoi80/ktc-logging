@@ -24,8 +24,9 @@ suites:
     - recipe[ktc-testing]
     - recipe[etcd::compile_time]
     - recipe[ktc-monitor::client]
-    - recipe[ktc-logging::server_logstash]
     - recipe[ktc-logging::server_es]
+    - recipe[ktc-logging::server_logstash]
+    - recipe[ktc-logging::server_kibana]
     - recipe[ktc-logging::client]
   attributes: 
     etcd:

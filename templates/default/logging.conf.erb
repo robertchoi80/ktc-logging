@@ -1,0 +1,208 @@
+[loggers]
+keys=root,ceilometer,cinder,glance,horizon,keystone,nova,quantum,swift,amqplib,sqlalchemy,boto,suds,eventletwsgi,<%= node["openstack"]["logging"]["ignore"].map{|k,v| k.gsub(/\W/, '_')}.join(',') %>
+
+[formatters]
+keys=normal,normal_with_name,debug,syslog_with_name,syslog_debug
+
+[handlers]
+keys=stderr,devel,prod,debug,ceilometer,cinder,glance,horizon,keystone,nova,quantum,swift
+
+## FORMATTERS ##
+
+[formatter_debug]
+format=[%(name)s]: %(asctime)s %(levelname)s %(module)s.%(funcName)s %(message)s
+
+[formatter_normal]
+format=%(asctime)s %(levelname)s %(message)s
+
+[formatter_normal_with_name]
+format=[%(name)s]: %(asctime)s %(levelname)s %(message)s
+
+[formatter_syslog_with_name]
+format=%(name)s: %(levelname)s %(message)s
+
+[formatter_syslog_debug]
+format=%(name)s: %(levelname)s %(module)s.%(funcName)s %(message)s
+
+## LOGGERS ##
+
+[logger_amqplib]
+level = WARNING
+handlers = stderr
+qualname = amqplib
+
+[logger_sqlalchemy]
+level = WARNING
+handlers = stderr
+qualname = sqlalchemy
+# "level = INFO" logs SQL queries.
+# "level = DEBUG" logs SQL queries and results.
+# "level = WARNING" logs neither.  (Recommended for production systems.)
+
+[logger_boto]
+level = WARNING
+handlers = stderr
+qualname = boto
+
+[logger_suds]
+level = INFO
+handlers = stderr
+qualname = suds
+
+<% node["openstack"]["logging"]["ignore"].each do |k,v| %>
+[logger_<%= k.gsub(/\W/, '_') %>]
+level = <%= v %>
+handlers = prod,debug
+qualname = <%= k %>
+
+<% end %>
+[logger_eventletwsgi]
+level = WARNING
+handlers = stderr
+qualname = eventlet.wsgi.server
+
+[logger_root]
+level=NOTSET
+handlers=devel
+
+[logger_ceilometer]
+level=DEBUG
+<% if node[:logging][:separate_logs] %>
+handlers=prod,debug,ceilometer
+<% else %>
+handlers=prod,debug
+<% end %>
+qualname=ceilometer
+
+[logger_cinder]
+level=DEBUG
+<% if node[:logging][:separate_logs] %>
+handlers=prod,debug,cinder
+<% else %>
+handlers=prod,debug
+<% end %>
+qualname=cinder
+
+[logger_glance]
+level=DEBUG
+<% if node[:logging][:separate_logs] %>
+handlers=prod,debug,glance
+<% else %>
+handlers=prod,debug
+<% end %>
+qualname=glance
+
+[logger_horizon]
+level=DEBUG
+<% if node[:logging][:separate_logs] %>
+handlers=prod,debug,horizon
+<% else %>
+handlers=prod,debug
+<% end %>
+qualname=horizon
+
+[logger_keystone]
+level=INFO
+<% if node[:logging][:separate_logs] %>
+handlers=prod,debug,keystone
+<% else %>
+handlers=prod,debug
+<% end %>
+qualname=keystone
+
+[logger_nova]
+level=DEBUG
+<% if node[:logging][:separate_logs] %>
+handlers=prod,debug,nova
+<% else %>
+handlers=prod,debug
+<% end %>
+qualname=nova
+
+[logger_quantum]
+level=DEBUG
+<% if node[:logging][:separate_logs] %>
+handlers=prod,debug,quantum
+<% else %>
+handlers=prod,debug
+<% end %>
+qualname=quantum
+
+[logger_swift]
+level=DEBUG
+<% if node[:logging][:separate_logs] %>
+handlers=prod,debug,swift
+<% else %>
+handlers=prod,debug
+<% end %>
+qualname=swift
+
+## HANDLERS ##
+
+[handler_stderr]
+class = StreamHandler
+args = (sys.stderr,)
+formatter = debug
+
+[handler_devel]
+class=StreamHandler
+level=NOTSET
+formatter=debug
+args=(sys.stdout,)
+
+[handler_ceilometer]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/ceilometer.log', 'w')
+
+[handler_cinder]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/cinder.log', 'w')
+
+[handler_glance]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/glance.log', 'w')
+
+[handler_horizon]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/horizon.log', 'w')
+
+[handler_keystone]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/keystone.log', 'w')
+
+[handler_nova]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/nova.log', 'w')
+
+[handler_quantum]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/quantum.log', 'w')
+
+[handler_swift]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/swift.log', 'w')
+
+[handler_file]
+class=FileHandler
+formatter=syslog_with_name
+args=('/var/log/openstack/openstack.log', 'w')
+
+[handler_prod]
+level=INFO
+class=handlers.SysLogHandler
+formatter=syslog_with_name
+args=(('/dev/log'), handlers.SysLogHandler.LOG_LOCAL0)
+
+[handler_debug]
+level=DEBUG
+class=handlers.SysLogHandler
+formatter=syslog_debug
+args=(('/dev/log'), handlers.SysLogHandler.LOG_LOCAL1)

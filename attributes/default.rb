@@ -58,6 +58,9 @@ default[:kibana][:apache][:enable_default_site] = true
 # Rsyslog attributes
 default[:rsyslog][:logstash_server] = ''
 
+# common logging config
+default[:logging][:separate_logs] = 'true'
+
 # process monitoring
 default[:logging][:logstash_processes] = [
   { "name" =>  "java", "shortname" =>  "java" }

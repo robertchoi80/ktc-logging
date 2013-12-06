@@ -2,7 +2,7 @@ name              "ktc-logging"
 maintainer        "Robert Choi"
 license           "Apache 2.0"
 description       "TLC for logging"
-version '1.0.11'
+version '1.0.12'
 
 depends "elasticsearch"
 depends "kibana"

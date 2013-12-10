@@ -5,6 +5,7 @@ include_recipe "openstack-common::logging"
 
 rewind :template => "/etc/openstack/logging.conf" do
   cookbook_name "ktc-logging"
+  notifies :create, "directory[/var/log/openstack]", :immediately
 end
 
 directory "/var/log/openstack" do

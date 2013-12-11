@@ -12,4 +12,14 @@ directory "/var/log/openstack" do
   owner "root"
   group "root"
   mode 0777
+  action :nothing
+end
+
+%w{ ceilometer cinder glance horizon keystone nova quantum swift }.each do |file|
+  file "/var/log/openstack/#{file}.log" do
+    owner "root"
+    group "root"
+    mode 0777
+    action :create_if_missing
+  end
 end

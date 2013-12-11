@@ -20,6 +20,7 @@ end
     owner "root"
     group "root"
     mode 0777
-    action :create_if_missing
+    action :nothing
+    subscribes :create, "directory[/var/log/openstack]", :immediately
   end
 end

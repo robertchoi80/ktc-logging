@@ -16,7 +16,7 @@ format=[%(name)s]: %(asctime)s %(levelname)s %(module)s.%(funcName)s %(message)s
 format=%(asctime)s %(levelname)s %(message)s
 
 [formatter_normal_with_name]
-format=[%(name)s]: %(asctime)s %(levelname)s %(message)s
+format=%(asctime)s %(name)s: %(levelname)s %(message)s
 
 [formatter_syslog_with_name]
 format=%(name)s: %(levelname)s %(message)s
@@ -152,47 +152,47 @@ args=(sys.stdout,)
 
 [handler_ceilometer]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/ceilometer.log', 'w')
 
 [handler_cinder]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/cinder.log', 'w')
 
 [handler_glance]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/glance.log', 'w')
 
 [handler_horizon]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/horizon.log', 'w')
 
 [handler_keystone]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/keystone.log', 'w')
 
 [handler_nova]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/nova.log', 'w')
 
 [handler_quantum]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/quantum.log', 'w')
 
 [handler_swift]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/swift.log', 'w')
 
 [handler_file]
 class=FileHandler
-formatter=syslog_with_name
+formatter=normal_with_name
 args=('/var/log/openstack/openstack.log', 'w')
 
 [handler_prod]

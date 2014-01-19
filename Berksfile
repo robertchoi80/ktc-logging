@@ -8,6 +8,8 @@ site :opscode
 
 metadata
 
+cookbook "kibana", github: "lusis/chef-kibana"
+
 group "integration" do
   cookbook "etcd"
   cookbook "ktc-testing"

@@ -5,7 +5,7 @@ description       "TLC for logging"
 version '1.0.21'
 
 depends "elasticsearch"
-depends "kibana"
+depends "kibana", ">= 1.2.0"
 depends "ktc-rsyslog"
 depends "logstash"
 depends "ktc-monitor"

@@ -96,7 +96,7 @@ output {
   graphite { host => "<%= @graphite_server_ip %>" metrics => ["logstash.events", "1"] }
   <% end -%>
   <% unless @splunk_host.empty? -%>
-  if [log_level] in <%= node['logstash']['log_level_for_splunk'].to_s %> {
+  if [log_level] not in <%= node['logstash']['exclude_level_for_splunk'].to_s %> {
     udp { host => "<%= @splunk_host %>" port => "<%= @splunk_port %>" }
   }
   <% end -%>

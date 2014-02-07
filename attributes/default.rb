@@ -40,7 +40,7 @@ default[:logstash][:index_cleaner][:cron][:log_file] = '/dev/null'
 
 default[:logstash][:splunk_host] = ''
 default[:logstash][:splunk_port] = ''
-default[:logstash][:log_level_for_splunk] = ['CRITICAL', 'ERROR', 'WARN', 'INFO']
+default[:logstash][:exclude_level_for_splunk] = ['DUMMY', 'DEBUG']
 
 # This search keyword is used for both logstash and kibana.
 default[:logging][:elasticsearch_recipe] = "ktc-logging\\:\\:server_es"

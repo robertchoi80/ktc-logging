@@ -54,6 +54,7 @@ default[:elasticsearch][:cluster][:name] = 'es-cluster-test'
 # Kibana attributes
 default[:kibana][:webserver] = 'apache'
 default[:kibana][:apache][:enable_default_site] = true
+default[:kibana][:install_type] = 'file'
 
 # Rsyslog attributes
 default[:rsyslog][:logstash_server] = ''

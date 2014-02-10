@@ -25,6 +25,11 @@ filter {
     add_tag => [ "level_grokked" ]
   }
 
+  # Rename this field because Splunk already has 'host' field.
+  mutate {
+    rename => [ "host", "source_host" ]
+  }
+
   <% if node['logstash']['server']['filter_list'].include?("json_tag") -%>
   grep {
     match => ["message", "_safe_log"]

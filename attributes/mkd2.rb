@@ -1,9 +1,9 @@
 #
 # Attributes for mkd2 environment
 #
-return unless chef_environment == "mkd2"
+return unless chef_environment == 'mkd2'
 
-include_attribute "ktc-logging::default"
+include_attribute 'ktc-logging::default'
 
 default[:logstash][:elasticsearch_cluster] = 'es-cluster-mkd2'
 default[:elasticsearch][:cluster][:name] = 'es-cluster-mkd2'

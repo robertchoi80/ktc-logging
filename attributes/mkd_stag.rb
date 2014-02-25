@@ -1,9 +1,9 @@
 #
 # Attributes for mkd_stag environment
 #
-return unless chef_environment == "mkd_stag"
+return unless chef_environment == 'mkd_stag'
 
-include_attribute "ktc-logging::default"
+include_attribute 'ktc-logging::default'
 
 # Logstash attributes
 default[:logstash][:splunk_host] = '20.0.1.224'

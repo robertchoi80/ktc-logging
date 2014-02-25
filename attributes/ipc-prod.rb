@@ -1,9 +1,9 @@
 #
 # Attributes for ipc-ng environment
 #
-return unless chef_environment == "ipc-prod"
+return unless chef_environment == 'ipc-prod'
 
-include_attribute "ktc-logging::default"
+include_attribute 'ktc-logging::default'
 
 # Logstash attributes
 default[:logstash][:splunk_host] = '10.2.2.81'

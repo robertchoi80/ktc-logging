@@ -3,6 +3,18 @@
 # Recipe:: logstash
 #
 
+include_recipe 'services'
+include_recipe 'ktc-utils'
+
+ip = KTC::Network.address 'management'
+
+logstash_service = Services::Member.new node['fqdn'],
+               service: 'logstash',
+               port: 9696,
+               proto: 'tcp',
+               ip: ip
+logstash_service.save
+
 chef_gem "chef-rewind"
 require 'chef/rewind'
 

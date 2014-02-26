@@ -3,22 +3,14 @@
 # Recipe:: logstash
 #
 
-include_recipe 'services'
-include_recipe 'ktc-utils'
-
-ip = KTC::Network.address 'management'
-
-logstash_service = Services::Member.new node['fqdn'],
-                                        service: 'logstash',
-                                        port: 9696,
-                                        proto: 'tcp',
-                                        ip: ip
-logstash_service.save
-
 chef_gem 'chef-rewind'
 require 'chef/rewind'
 
+include_recipe 'services'
+include_recipe 'ktc-utils'
 include_recipe 'logstash::server'
+
+ip = KTC::Network.address 'management'
 
 patterns_dir = node[:logstash][:basedir] + '/'
 patterns_dir <<  node[:logstash][:server][:patterns_dir]
@@ -49,6 +41,22 @@ rewind template: "#{node[:logstash][:basedir]}/server/etc/logstash.conf" do
             splunk_port: node[:logstash][:splunk_port],
             patterns_dir: patterns_dir
   )
+end
+
+# register logstash endpoint #
+ruby_block "register logstash endpoint" do
+  block do
+    member = Services::Member.new node['fqdn'],
+      service: "logstash-server",
+      port: node[:logstash][:server][:syslog_input_port]
+      ip: ip
+    member.save
+
+    ep = Services::Endpoint.new "logstash-server",
+      ip: ip,
+      port: node[:logstash][:server][:syslog_input_port]
+    ep.save
+  end
 end
 
 # process monitoring and sensu-check config

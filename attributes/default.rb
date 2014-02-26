@@ -1,7 +1,7 @@
-include_attribute "logstash"
-include_attribute "elasticsearch"
-include_attribute "kibana"
-include_attribute "ktc-rsyslog"
+include_attribute 'logstash'
+include_attribute 'elasticsearch'
+include_attribute 'kibana'
+include_attribute 'ktc-rsyslog'
 
 # Override these recipe lists in 'per-env' attribute file.
 default[:logging][:recipes_server_logstash] = %w{
@@ -28,10 +28,14 @@ default[:logstash][:server][:version] = '1.2.1'
 default[:logstash][:server][:enable_embedded_es] = false
 default[:logstash][:server][:source_url] =
   'https://download.elasticsearch.org/logstash/logstash/logstash-1.2.1-flatjar.jar'
-default[:logstash][:server][:inputs] = [:syslog => { :type=>'syslog', :port=>'5514' }]
+default[:logstash][:server][:inputs] = [syslog: { type: 'syslog', port: '5514' }]
 default[:logstash][:server][:outputs] = []
 
-default[:logstash][:server][:filter_list] = ["dmesg", "json_tag", "json_parse"]
+default[:logstash][:server][:filter_list] = %w/
+  dmesg
+  json_tag
+  json_parse
+/
 
 default[:logstash][:index_cleaner][:days_to_keep] = 28
 default[:logstash][:index_cleaner][:cron][:minute] = '0'
@@ -40,10 +44,10 @@ default[:logstash][:index_cleaner][:cron][:log_file] = '/dev/null'
 
 default[:logstash][:splunk_host] = ''
 default[:logstash][:splunk_port] = ''
-default[:logstash][:exclude_level_for_splunk] = ['DUMMY', 'DEBUG']
+default[:logstash][:exclude_level_for_splunk] = %w(DUMMY DEBUG)
 
 # This search keyword is used for both logstash and kibana.
-default[:logging][:elasticsearch_recipe] = "ktc-logging\\:\\:server_es"
+default[:logging][:elasticsearch_recipe] = 'ktc-logging\\:\\:server_es'
 default[:logging][:elasticsearch_query] = "recipes:#{node[:logging][:elasticsearch_recipe]} \
 AND chef_environment:#{node.chef_environment}"
 
@@ -64,13 +68,13 @@ default[:logging][:separate_logs] = 'true'
 
 # process monitoring
 default[:logging][:logstash_processes] = [
-  { "name" =>  "java", "shortname" =>  "java" }
+  { 'name' =>  'java', 'shortname' =>  'java' }
 ]
 
 default[:logging][:es_processes] = [
-  { "name" =>  "java", "shortname" =>  "java" }
+  { 'name' =>  'java', 'shortname' =>  'java' }
 ]
 
 default[:logging][:kibana_processes] = [
-  { "name" =>  "apache2", "shortname" =>  "apache2" }
+  { 'name' =>  'apache2', 'shortname' =>  'apache2' }
 ]

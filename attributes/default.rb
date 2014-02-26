@@ -55,6 +55,9 @@ AND chef_environment:#{node.chef_environment}"
 default[:logstash][:elasticsearch_cluster] = 'es-cluster-test'
 default[:elasticsearch][:cluster][:name] = 'es-cluster-test'
 
+# Should use (<=0.90.9) with logstash v1.2.1
+default[:elasticsearch][:version] = "0.90.9"
+
 # Kibana attributes
 default[:kibana][:webserver] = 'apache'
 default[:kibana][:apache][:enable_default_site] = true

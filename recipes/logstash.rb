@@ -44,17 +44,18 @@ rewind template: "#{node[:logstash][:basedir]}/server/etc/logstash.conf" do
 end
 
 # register logstash endpoint #
-ruby_block "register logstash endpoint" do
+syslog_port = node[:logstash][:server][:syslog_input_port]
+ruby_block 'register logstash endpoint' do
   block do
     member = Services::Member.new node['fqdn'],
-      service: "logstash-server",
-      port: node[:logstash][:server][:syslog_input_port]
-      ip: ip
+                                  service: 'logstash-server',
+                                  port: syslog_port,
+                                  ip: ip
     member.save
 
-    ep = Services::Endpoint.new "logstash-server",
-      ip: ip,
-      port: node[:logstash][:server][:syslog_input_port]
+    ep = Services::Endpoint.new 'logstash-server',
+                                ip: ip,
+                                port: syslog_port
     ep.save
   end
 end

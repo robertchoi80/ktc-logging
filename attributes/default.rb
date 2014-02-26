@@ -26,6 +26,7 @@ default[:logging][:recipes_client] = %w{
 # Logstash attributes
 default[:logstash][:server][:version] = '1.2.1'
 default[:logstash][:server][:enable_embedded_es] = false
+default[:logstash][:server][:install_rabbitmq] = false
 default[:logstash][:server][:source_url] =
   'https://download.elasticsearch.org/logstash/logstash/logstash-1.2.1-flatjar.jar'
 default[:logstash][:server][:inputs] = [syslog: { type: 'syslog', port: '5514' }]

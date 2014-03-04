@@ -5,7 +5,7 @@ keys=root,ceilometer,cinder,glance,horizon,keystone,nova,quantum,swift,amqplib,s
 keys=normal,normal_with_name,debug,syslog_with_name,syslog_debug
 
 [handlers]
-keys=stderr,devel,prod,debug,ceilometer,cinder,glance,horizon,keystone,nova,quantum,swift
+keys=stderr,devel,prod,debug,cinder,glance,keystone,nova,quantum
 
 ## FORMATTERS ##
 
@@ -54,8 +54,8 @@ qualname = suds
 level = <%= v %>
 handlers = prod,debug
 qualname = <%= k %>
-
 <% end %>
+
 [logger_eventletwsgi]
 level = WARNING
 handlers = stderr
@@ -66,17 +66,15 @@ level=NOTSET
 handlers=devel
 
 [logger_ceilometer]
-level=DEBUG
-<% if node[:logging][:separate_logs] %>
-handlers=prod,debug,ceilometer
+<% if node[:rsyslog][:separate_logs] %>
+handlers=prod,debug
 <% else %>
 handlers=prod,debug
 <% end %>
 qualname=ceilometer
 
 [logger_cinder]
-level=DEBUG
-<% if node[:logging][:separate_logs] %>
+<% if node[:rsyslog][:separate_logs] %>
 handlers=prod,debug,cinder
 <% else %>
 handlers=prod,debug
@@ -84,8 +82,7 @@ handlers=prod,debug
 qualname=cinder
 
 [logger_glance]
-level=DEBUG
-<% if node[:logging][:separate_logs] %>
+<% if node[:rsyslog][:separate_logs] %>
 handlers=prod,debug,glance
 <% else %>
 handlers=prod,debug
@@ -93,17 +90,15 @@ handlers=prod,debug
 qualname=glance
 
 [logger_horizon]
-level=DEBUG
-<% if node[:logging][:separate_logs] %>
-handlers=prod,debug,horizon
+<% if node[:rsyslog][:separate_logs] %>
+handlers=prod,debug
 <% else %>
 handlers=prod,debug
 <% end %>
 qualname=horizon
 
 [logger_keystone]
-level=INFO
-<% if node[:logging][:separate_logs] %>
+<% if node[:rsyslog][:separate_logs] %>
 handlers=prod,debug,keystone
 <% else %>
 handlers=prod,debug
@@ -111,8 +106,7 @@ handlers=prod,debug
 qualname=keystone
 
 [logger_nova]
-level=DEBUG
-<% if node[:logging][:separate_logs] %>
+<% if node[:rsyslog][:separate_logs] %>
 handlers=prod,debug,nova
 <% else %>
 handlers=prod,debug
@@ -120,8 +114,7 @@ handlers=prod,debug
 qualname=nova
 
 [logger_quantum]
-level=DEBUG
-<% if node[:logging][:separate_logs] %>
+<% if node[:rsyslog][:separate_logs] %>
 handlers=prod,debug,quantum
 <% else %>
 handlers=prod,debug
@@ -129,9 +122,8 @@ handlers=prod,debug
 qualname=quantum
 
 [logger_swift]
-level=DEBUG
-<% if node[:logging][:separate_logs] %>
-handlers=prod,debug,swift
+<% if node[:rsyslog][:separate_logs] %>
+handlers=prod,debug
 <% else %>
 handlers=prod,debug
 <% end %>
@@ -150,50 +142,35 @@ level=NOTSET
 formatter=debug
 args=(sys.stdout,)
 
-[handler_ceilometer]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/ceilometer.log', 'a')
-
 [handler_cinder]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/cinder.log', 'a')
+level=DEBUG
+class=handlers.SysLogHandler
+formatter=syslog_with_name
+args=(('/dev/log'), handlers.SysLogHandler.<%= node[:rsyslog][:cinder_facility] %>)
 
 [handler_glance]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/glance.log', 'a')
-
-[handler_horizon]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/horizon.log', 'a')
+level=DEBUG
+class=handlers.SysLogHandler
+formatter=syslog_with_name
+args=(('/dev/log'), handlers.SysLogHandler.<%= node[:rsyslog][:glance_facility] %>)
 
 [handler_keystone]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/keystone.log', 'a')
+level=INFO
+class=handlers.SysLogHandler
+formatter=syslog_with_name
+args=(('/dev/log'), handlers.SysLogHandler.<%= node[:rsyslog][:keystone_facility] %>)
 
 [handler_nova]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/nova.log', 'a')
+level=DEBUG
+class=handlers.SysLogHandler
+formatter=syslog_with_name
+args=(('/dev/log'), handlers.SysLogHandler.<%= node[:rsyslog][:nova_facility] %>)
 
 [handler_quantum]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/quantum.log', 'a')
-
-[handler_swift]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/swift.log', 'a')
-
-[handler_file]
-class=FileHandler
-formatter=normal_with_name
-args=('/var/log/openstack/openstack.log', 'a')
+level=DEBUG
+class=handlers.SysLogHandler
+formatter=syslog_with_name
+args=(('/dev/log'), handlers.SysLogHandler.<%= node[:rsyslog][:quantum_facility] %>)
 
 [handler_prod]
 level=INFO

@@ -68,7 +68,8 @@ default[:kibana][:install_type] = 'file'
 default[:rsyslog][:logstash_server] = ''
 
 # common logging config
-default[:logging][:separate_logs] = 'true'
+default[:rsyslog][:disable_local_log] = false
+default[:rsyslog][:separate_logs] = true
 
 # process monitoring
 default[:logging][:logstash_processes] = [

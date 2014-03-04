@@ -27,6 +27,8 @@ suites:
     - recipe[ktc-logging::logging]
   attributes: 
     etcd:
+      addr: 127.0.0.1
+      peer_addr: 127.0.0.1
       servers:
         - 127.0.0.1
     ha_disabled: true

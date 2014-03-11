@@ -20,7 +20,7 @@ filter {
 
   grok {
     type => "syslog"
-    match => { "message" => "%{LOGLEVEL:log_level}? %{GREEDYDATA:message}" }
+    match => { "message" => "%{LOGLEVEL:log_level} %{GREEDYDATA:message}" }
     overwrite => [ "message" ]
     add_tag => [ "level_grokked" ]
   }

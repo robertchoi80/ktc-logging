@@ -1,3 +1,4 @@
+# rubocop:disable LineLength
 #
 # CookBook:: ktc-logging
 # Recipe:: logstash
@@ -74,4 +75,24 @@ end
 
 ktc_collectd_processes 'logstash-processes' do
   input processes
+end
+
+##################################
+# Rewind index-cleaner resources #
+##################################
+include_recipe 'logstash::index_cleaner'
+
+base_dir          = File.join(node['logstash']['basedir'], 'index_cleaner')
+index_cleaner_bin = File.join(base_dir, 'logstash_index_cleaner.py')
+days_to_keep      = node['logstash']['index_cleaner']['days_to_keep']
+log_file          = node['logstash']['index_cleaner']['cron']['log_file']
+
+# Fix UCLOUDNG-1383
+rewind cookbook_file: index_cleaner_bin do
+  cookbook_name 'ktc-logging'
+end
+
+# Make it query to remote ES server
+rewind cron: 'logstash_index_cleaner' do
+  command "#{index_cleaner_bin} --host #{es_server_ip} -d #{days_to_keep} &> #{log_file}"
 end

@@ -1,3 +1,4 @@
+# rubocop:disable FileName
 #
 # Attributes for mkd_stag environment
 #

@@ -4,24 +4,22 @@ include_attribute 'kibana'
 include_attribute 'ktc-rsyslog'
 
 # Override these recipe lists in 'per-env' attribute file.
-default[:logging][:recipes_server_logstash] = %w{
+default[:logging][:recipes_server_logstash] = %w(
   ktc-logging::logstash
-}
+)
 
-default[:logging][:recipes_server_es] = %w{
+default[:logging][:recipes_server_es] = %w(
   java
   elasticsearch::default
-  logstash::default
-  logstash::index_cleaner
-}
+)
 
-default[:logging][:recipes_server_kibana] = %w{
+default[:logging][:recipes_server_kibana] = %w(
   ktc-logging::kibana
-}
+)
 
-default[:logging][:recipes_client] = %w{
+default[:logging][:recipes_client] = %w(
   ktc-rsyslog::default
-}
+)
 
 # Logstash attributes
 default[:logstash][:server][:version] = '1.2.1'
@@ -32,11 +30,11 @@ default[:logstash][:server][:source_url] =
 default[:logstash][:server][:inputs] = [syslog: { type: 'syslog', port: '5514' }]
 default[:logstash][:server][:outputs] = []
 
-default[:logstash][:server][:filter_list] = %w/
+default[:logstash][:server][:filter_list] = %w(
   dmesg
   json_tag
   json_parse
-/
+)
 
 default[:logstash][:index_cleaner][:days_to_keep] = 28
 default[:logstash][:index_cleaner][:cron][:minute] = '0'

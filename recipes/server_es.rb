@@ -9,6 +9,14 @@ node[:logging][:recipes_server_es].each do |recipe|
   include_recipe recipe
 end
 
+chef_gem 'chef-rewind'
+require 'chef/rewind'
+
+rewind template: 'logging.yml' do
+  source "es_logging.yml.erb"
+  cookbook_name "ktc-logging"
+end
+
 # process monitoring and sensu-check config
 processes = node[:logging][:es_processes]
 

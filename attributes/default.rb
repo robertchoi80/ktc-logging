@@ -56,6 +56,7 @@ default[:elasticsearch][:cluster][:name] = 'es-cluster-test'
 
 # Should use (<=0.90.9) with logstash v1.2.1
 default[:elasticsearch][:version] = '0.90.9'
+default[:elasticsearch][:logging][:max_backup_index] = 7
 
 # Kibana attributes
 default[:kibana][:webserver] = 'apache'
